@@ -19,7 +19,7 @@ I am currently a Master's student at **Chang Gung University (CGU)**, specializi
     
 * **Machine Learning in Clinical Prediction:** Developing hierarchical machine learning models (e.g., **Random Forest**, **XGBoost**) to predict functional recovery in patients six months after neurological events. I focus on model interpretability and consistency to bridge the gap between AI and clinical decision-making.
 
-* **Generative Models for Medical Imaging:** Exploring the potential of **Generative Adversarial Networks (GANs)**, specifically **Pix2Pix**, to synthesize high-quality brain images and enhance the detection of microstructural abnormalities.
+* **Generative Models for Medical Imaging:** Validating the potential of **Generative Adversarial Networks (GANs)**, specifically **Pix2Pix**, to synthesize high-quality brain images and enhance the detection of microstructural abnormalities.
 
 ---
 
