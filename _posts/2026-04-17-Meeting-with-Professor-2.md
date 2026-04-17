@@ -5,10 +5,8 @@ header:
 date: 2026-04-17
 categories:
   - NIPS
-  - Japan
 tags:
-  - NIPS
-  - project
+  - Japan
 ---
 
 今天的討論也被打槍了...

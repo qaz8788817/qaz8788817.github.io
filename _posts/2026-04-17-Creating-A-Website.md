@@ -6,7 +6,7 @@ date: 2026-04-17
 categories:
   - life
 tags:
-  - life
+  - Japan
 ---
 
 這是我的第一篇部落格文章。我建立了自己的個人網站啦！
