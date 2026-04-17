@@ -116,14 +116,14 @@ analytics:
 author:
   name             : "YANG YA HAN"
   avatar           : "/assets/images/me.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Software Engineer & Neuroimaging Researcher. <br><br> 🧬 Currently a Master's student at **CGU**, focusing on **diffusion MRI analysis** and **ML-based clinical prediction**. <br><br> 🇯🇵 Interning in Japan | 🇹🇼 Based in Taiwan."
+  bio              : "Software Engineer & Neuroimaging Researcher.\n🧬 Currently a Master's student at **CGU**, focusing on **diffusion MRI analysis** and **ML-based clinical prediction**.\n🇯🇵 Interning in Japan | 🇹🇼 Based in Taiwan."
   location         : "Japan (for internship), Taiwan (for school)"
   email            :
   # fediverse      : "@you@instance.social"  # used for fediverse:creator meta tag
   links:
     - label: "Email"
       icon: "fas fa-fw fa-square-envelope"
-      url: "mailto:gn00088504@email.com"
+      url: "gn00088504@email.com"
     - label: "LinkedIn"
       icon: "fas fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/vivian-yang-32b210245"
