@@ -15,9 +15,9 @@
 minimal_mistakes_skin    : "aqua" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise", "catppuccin_latte", "catppuccin_mocha"
 
 # Site Settings
-locale                   : "en-US"
+locale                   : "zh-TW"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
-title                    : "About Vivian YANG"
+title                    : "Vivian Yang | Neuroimaging Researcher"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "YANG YA HAN"
@@ -115,7 +115,7 @@ analytics:
 # Site Author
 author:
   name             : "YANG YA HAN"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/me.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "I am an **Keep Going** person. \nI am a software engineer who loves coding and solving problems, also love data analysis and data science. \nI am currently studying Master's degree in CGU. \nMy research topic is focusing on neuroimaging analysis and machine learning-based clinical prediction models.\nI am passionate about learning new technologies and improving my skills."
   location         : "Japan (for internship), Taiwan (for school)"
   email            :
