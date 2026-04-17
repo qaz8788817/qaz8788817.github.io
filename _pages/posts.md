@@ -16,7 +16,7 @@ entries_layout: grid
 
   {% for post in site.posts %}
 
-    {% include archive-single.html %}
+    {% include archive-single.html type="grid" %}
 
   {% endfor %}
 
