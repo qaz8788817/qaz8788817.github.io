@@ -1,5 +1,7 @@
 ---
 title: "建立自己的個人網站"
+header:
+    teaser: /assets/images/pic1.jpg
 date: 2026-04-17
 categories:
   - life
