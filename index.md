@@ -25,8 +25,8 @@ I am currently a Master's student at **Chang Gung University (CGU)**, specializi
 
 ## Technical Toolkit
 
-* **Neuroimaging:** MRtrix3, FSL, TractSeg, DSI Studio, MREG.
-* **Machine Learning:** Weka, Scikit-learn, PyTorch (GANs).
+* **Neuroimaging:** MRtrix3, FSL, TractSeg.
+* **Machine Learning:** Weka, Scikit-learn, Python.
 * **Organization & Productivity:** Professional academic literature management via Notion.
 
 ---
