@@ -2,8 +2,8 @@
 layout: single
 title: "ghost removal online"
 excerpt: "架設線上Ghost Removal工具，透過UI/UX讓使用者使用上更方便。"
-# header:
-#   teaser: /assets/images/360_AI.png
+header:
+  teaser: /assets/images/default_teaser.png
 author_profile: true
 sidebar:
   nav: "main"
