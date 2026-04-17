@@ -116,7 +116,7 @@ analytics:
 author:
   name             : "YANG YA HAN"
   avatar           : "/assets/images/me.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am a software engineer, love data analysis and data science. \nI am currently studying Master's degree in CGU. \nMy research topic is focusing on neuroimaging analysis and machine learning-based clinical prediction models."
+  bio              : "Software Engineer & Neuroimaging Researcher. <br><br> 🧬 Currently a Master's student at **CGU**, focusing on **diffusion MRI analysis** and **ML-based clinical prediction**. <br><br> 🇯🇵 Interning in Japan | 🇹🇼 Based in Taiwan."
   location         : "Japan (for internship), Taiwan (for school)"
   email            :
   # fediverse      : "@you@instance.social"  # used for fediverse:creator meta tag
