@@ -88,7 +88,7 @@ author_profile: true
 <h3 class="archive__subtitle">View by Category</h3>
 {% for category in site.categories %}
   <details class="category-box">
-    <summary>{{ category[0] }} ({{ category[1].size }})</summary>
+    <summary>{{ category[0] | capitalize }} ({{ category[1].size }})</summary>
     <div class="category-content">
       {% for post in category[1] %}
         <a href="{{ post.url | relative_url }}" class="custom-post-item">

@@ -17,7 +17,7 @@ header:
     teaser: /assets/images/sakura.jpg
 date: 2026-04-03
 categories:
-  - life
+  - Life
 tags:
   - Japan
 ---

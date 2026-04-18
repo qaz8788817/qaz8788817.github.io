@@ -4,7 +4,7 @@ header:
     teaser: /assets/images/pic1.jpg
 date: 2026-04-17
 categories:
-  - life
+  - Life
 tags:
   - Japan
 ---
