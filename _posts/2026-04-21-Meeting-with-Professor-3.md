@@ -1,7 +1,7 @@
 ---
 title: "第三次跟教授討論題目"
 header:
-    teaser: /assets/images/default_teaser.png
+    teaser: /assets/images/2026-04-21.jpg
 date: 2026-04-21
 categories:
   - NIPS
@@ -28,3 +28,5 @@ tags:
 ### 今日進展
 * 第三次討論研究方向。  
 * 確定研究方向。  
+
+![截圖]({{ site.baseurl }}/assets/images/2026-04-21.jpg)
