@@ -32,4 +32,5 @@ tags:
 下禮拜就可以接觸新的技術了！  
 好期待waku waku ♥(´∀` )人
 
-![截圖]({{ site.baseurl }}/assets/images/2026-04-21.jpg)
+### 這是今天的照片
+{% include gallery %}
