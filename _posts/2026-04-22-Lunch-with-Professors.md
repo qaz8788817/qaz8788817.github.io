@@ -9,12 +9,7 @@ gallery:
 - url: /assets/images/2026-04-22/lunch.jpg
   image_path: /assets/images/2026-04-22/lunch.jpg
   alt: "好吃漢堡排套餐"
-- url: /assets/images/2026-04-22/pikmin.jpg
-  image_path: /assets/images/2026-04-22/pikmin.jpg
-  alt: "我蒐集完了一組皮克敏！"
-- url: /assets/images/2026-04-22/lunch.jpg
-  image_path: /assets/images/2026-04-22/lunch.jpg
-  alt: "好吃漢堡排套餐"
+
 date: 2026-04-22
 categories:
   - Life
