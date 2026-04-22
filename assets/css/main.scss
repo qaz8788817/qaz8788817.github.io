@@ -1,4 +1,7 @@
---- # Only the main Sass file needs front matter (the dashes are enough) search: false --- @charset "utf-8";
+--- 
+# Only the main Sass file needs front matter (the dashes are enough) search: false 
+--- 
+@charset "utf-8";
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
@@ -22,42 +25,3 @@
     text-decoration: none !important;
 }
 
-/* 針對「推薦文章 (Related Posts)」區域的優化 */
-.related__item {
-
-    /* 1. 確保卡片內的圖片高度統一 */
-    .archive__item-teaser {
-        width: 100%;
-        height: 150px;
-        /* 妳可以根據喜好調整高度 */
-        object-fit: cover;
-        border-radius: 8px;
-    }
-
-    /* 2. 限制標題行數 (最多 2 行)，避免標題太長擠壓下方空間 */
-    .archive__item-title {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        min-height: 2.8em;
-        /* 確保即使標題只有 1 行，也會佔據 2 行的高度，維持對齊 */
-        margin-top: 15px !important;
-        font-size: 1.1em !important;
-    }
-
-    /* 3. 限制摘要內文行數 (最多 3 或 4 行) */
-    .archive__item-excerpt {
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        /* 限制顯示 4 行 */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        height: 6em;
-        /* 強制高度統一，讓所有卡片底部對齊 */
-        font-size: 0.9em;
-        line-height: 1.5;
-        margin-top: 10px;
-        color: #666;
-    }
-}
