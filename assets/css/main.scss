@@ -1,12 +1,11 @@
---- 
-# Only the main Sass file needs front matter (the dashes are enough) search: false 
---- 
-@charset "utf-8";
+--- # Only the main Sass file needs front matter (the dashes are enough) --- @charset "utf-8";
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-/* 自定義文章懸停效果 */
+/* ==========================================================================
+   自定義：文章懸停效果 (妳原本的設定)
+   ========================================================================== */
 .archive__item {
     padding: 15px;
     border-radius: 8px;
@@ -25,3 +24,56 @@
     text-decoration: none !important;
 }
 
+/* ==========================================================================
+    自定義：推薦文章 (You May Also Enjoy) 的對齊修正
+========================================================================== */
+.page__related {
+
+    /* 讓推薦區域的每一列卡片容器寬度一致 */
+    .grid__item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .archive__item {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        /* 確保整張卡片拉到最長 */
+
+        /* 1. 統一縮圖高度 */
+        .archive__item-teaser {
+            width: 100% !important;
+            height: 150px !important;
+            /* 妳可以根據感覺調整這個高度 */
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        /* 2. 標題對齊：最多顯示 2 行，即使只有 1 行也佔據 2 行空間 */
+        .archive__item-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 2.8em;
+            /* 這是關鍵，讓標題區塊高度一致 */
+            margin-top: 0.5em !important;
+            margin-bottom: 0.5em !important;
+        }
+
+        /* 3. 摘要對齊：最多顯示 4 行 */
+        .archive__item-excerpt {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            /* 強制 4 行 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 6em;
+            /* 固定摘要高度，達成底部對齊 */
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+    }
+}
