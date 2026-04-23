@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "YoLo居家危險因子跌倒偵測系統"
-excerpt: "透過手機使用照相功能，就能偵測容易造成跌倒的危險因子，並藉由使用者填寫相關問卷，以生成客觀且嚴謹的居家審查報告。"
+title: "AI-Driven Home Fall Hazard Detection System"
+excerpt: "An AI-powered system leveraging the YOLO architecture to detect home fall risks via mobile photography. It integrates questionnaire-based data to produce standardized, objective home environment assessment reports."
 header:
   teaser: /assets/images/default_teaser.png
 author_profile: true

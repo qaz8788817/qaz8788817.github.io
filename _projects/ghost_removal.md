@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "ghost removal online"
-excerpt: "架設線上Ghost Removal工具，透過UI/UX讓使用者使用上更方便。"
+title: "ghost removal online web"
+excerpt: "Setting up a ghost removal web for MRI data, and making researchers use the tool more easier and faster."
 header:
   teaser: /assets/images/default_teaser.png
 author_profile: true

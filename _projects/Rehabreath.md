@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "RehaBreathe Linebot小幫手"
-excerpt: "透過穿戴式裝置結合LineBot與資料庫，對使用者進行呼吸、心率偵測，幫助使用者時刻注意自身健康。"
+title: "RehaBreathe - A LineBot Assistance"
+excerpt: "An integrated health monitoring platform combining wearables, LineBot, and backend databases to track heart and respiratory rates, empowering users to stay vigilant about their well-being."
 header:
   teaser: /assets/images/default_teaser.png
 author_profile: true
