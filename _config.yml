@@ -126,7 +126,7 @@ author:
       icon: "fas fa-fw fa-square-envelope"
       url: "mailto:gn00088504@gmail.com"
     - label: "LinkedIn"
-      icon: "fas fa-fw fa-code"
+      icon: "fa fa-linkedin-square"
       url: "https://www.linkedin.com/in/vivian-yang-32b210245"
     # - label: "Twitter"
       # icon: "fab fa-fw fa-square-x-twitter"
