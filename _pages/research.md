@@ -3,6 +3,7 @@ layout: single
 title: "Research Library"
 permalink: /research/
 author_profile: true
+entries_layout: grid  # 如果妳想要卡片式排版，可以用 grid；想要列表式可以用 list
 ---
 
 這裡是我的研究知識庫，包含 dMRI 指標、機器學習與臨床應用。
@@ -10,12 +11,10 @@ author_profile: true
 {% assign research_groups = site.research | group_by: 'topic' %}
 
 {% for group in research_groups %}
-  ## {{ group.name }}
-  <ul>
-    {% for item in group.items %}
-      <li>
-        <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
-      </li>
+  <h2 id="{{ group.name | slugify }}" class="archive__subtitle">{{ group.name }}</h2>
+  <div class="entries-{{ page.entries_layout | default: 'list' }}">
+    {% for post in group.items %}
+      {% include archive-single.html %}
     {% endfor %}
-  </ul>
+  </div>
 {% endfor %}
