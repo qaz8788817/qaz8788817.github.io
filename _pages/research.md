@@ -88,20 +88,33 @@ entries_layout: grid  # 如果妳想要卡片式排版，可以用 grid；想要
   }
 </style>
 
-<h3 class="archive__subtitle">View by Category</h3>
-{% for category in site.categories %}
-  <details class="category-box">
-    <summary>{{ category[0] | capitalize }} ({{ category[1].size }})</summary>
+<h3 class="archive__subtitle">View by Research Topic</h3>
+
+{% comment %} 
+  根據 'topic' 屬性對 Research Collection 進行分組
+{% endcomment %}
+{% assign research_groups = site.research | group_by: 'topic' %}
+
+{% for group in research_groups %}
+  <details class="category-box" open> <summary>{{ group.name | capitalize }} ({{ group.items.size }})</summary>
     <div class="category-content">
-      {% for post in category[1] %}
-        <a href="{{ post.url | relative_url }}" class="custom-post-item">
+      {% for item in group.items %}
+        <a href="{{ item.url | relative_url }}" class="custom-post-item">
           <div class="post-image-wrapper">
-            <img src="{{ post.header.teaser | relative_url }}" alt="{{ post.title }}">
+            {% if item.header.teaser %}
+              <img src="{{ item.header.teaser | relative_url }}" alt="{{ item.title }}">
+            {% else %}
+              <img src="/assets/images/default-research.png" alt="{{ item.title }}">
+            {% endif %}
           </div>
           <div class="post-content-wrapper">
-            <h2 class="post-item-title">{{ post.title }}</h2>
+            <h2 class="post-item-title">{{ item.title }}</h2>
             <div class="post-item-excerpt">
-              {{ post.excerpt | strip_html | truncatewords: 30 }}
+              {% if item.excerpt %}
+                {{ item.excerpt | strip_html | truncate: 120 }}
+              {% else %}
+                {{ item.content | strip_html | truncate: 120 }}
+              {% endif %}
             </div>
           </div>
         </a>
@@ -109,33 +122,3 @@ entries_layout: grid  # 如果妳想要卡片式排版，可以用 grid；想要
     </div>
   </details>
 {% endfor %}
-
-<!-- {% assign research_groups = site.research | group_by: 'topic' %}
-
-{% for group in research_groups %}
-  <h2 id="{{ group.name | slugify }}" class="archive__subtitle">{{ group.name }}</h2>
-  <div class="entries-{{ page.entries_layout | default: 'list' }}">
-    {% for post in group.items %}
-      {% include archive-single.html %}
-    {% endfor %}
-  </div>
-{% endfor %} -->
-
-<!-- {% for group in research_groups %}
-  <h2 id="{{ group.name | slugify }}" class="archive__subtitle">{{ group.name }}</h2>
-  
-  <div class="list__item">
-    {% for post in group.items %}
-      <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-        <h3 class="archive__item-title" itemprop="headline">
-          <a href="{{ post.url | relative_url }}" rel="permalink">{{ post.title }}</a>
-        </h3>
-        {% if post.excerpt %}
-          <p class="archive__item-excerpt" itemprop="description">
-            {{ post.excerpt | markdownify | strip_html | truncate: 160 }}
-          </p>
-        {% endif %}
-      </article>
-    {% endfor %}
-  </div>
-{% endfor %} -->
