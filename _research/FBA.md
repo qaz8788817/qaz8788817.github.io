@@ -4,6 +4,8 @@ title: "深入淺出 Fixel-based Analysis：從 FDC 指標看見腦纖維變化"
 # collection: research
 topic: FBA  # 這裡自定義妳的分類
 excerpt: "探討 FDC 指標如何結合微觀與宏觀資訊，解決 DTI 在複雜纖維交叉處的侷限性。"
+header:
+  teaser: /assets/images/default_teaser.png
 author_profile: true
 # sidebar:
 #   nav: "main"
