@@ -20,7 +20,7 @@ author_profile: true
 
 ### 2. 認識新單位：從 Voxel 到 Fixel
 ![圖片描述]({{ '/assets/images/FBA/FBA(1)/fod2fixel.png' | relative_url }})
-*圖 1：voxel與Fixel*
+*圖 1：voxel與Fixel*  
 為了突破傳統模型的限制，Fixel-based Analysis (FBA) 引入了全新的分析單位。  
 * Voxel（體素）：是影像中的一個 3D 小方塊，它是空間位址，但沒有方向性。  
 * Fixel（纖維元素）：是在「特定像素」內的「特定方向」纖維成分。  
