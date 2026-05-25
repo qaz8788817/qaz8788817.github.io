@@ -116,4 +116,4 @@ applywarp -i ${folder}/mreg_hpf.nii.gz -r MNI152_T1_4mm_brain.nii.gz --premat=${
 要特別注意的是，生成完每一步驟的影像後，用```fslinfo```確認一下影像的attribute ```dim4```是不是大於1。  
 指令：```fslinfo file.nii.gz | grep dim4```  
 
-那這篇就先到這裡做個小結！下一篇在繼續做後續的分析~
+那這篇就先到這裡做個小結！下一篇會繼續做後續的分析~
