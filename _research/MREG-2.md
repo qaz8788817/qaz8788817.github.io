@@ -94,8 +94,8 @@ fslmaths ${folder}/mreg_hpf.nii.gz -add ${folder}/mreg_mean ${folder}/mreg_hpf_r
 ### 6. 標準空間對齊(Registration to MNI space)
 「將每個獨特的大腦，搬進全世界通用的標準地圖裡。」  
 為了向全世界的神經科學家說明發現了「哪個腦區」有異常，我們必須把患者原生的大腦，變形拉伸到全球通用的MNI標準模板上。  
-- ```flirt```負責「算數學」：比對患者大腦與標準大腦的差異，算出一張包含平移、縮放、旋轉參數的「變形矩陣地圖」。
-- ```applywarp```負責「搬家」：拿著這份地圖，精準地將4D影片裡的每一個時間點，無損地搬遷到標準空間中。
+- 第一行```flirt```負責「算數學」：比對患者大腦與標準大腦的差異，算出一張包含平移、縮放、旋轉參數的「變形矩陣地圖」。
+- 第二行```applywarp```負責「搬家」：拿著這份地圖，精準地將4D影片裡的每一個時間點，無損地搬遷到標準空間中。
 ```
 flirt -in ${folder}/mreg_hpf_restored.nii.gz -ref MNI152_T1_4mm_brain.nii.gz -out ${folder}/mreg_mean_std -omat ${folder}/reg.mat -bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12
 applywarp -i ${folder}/mreg_hpf.nii.gz -r MNI152_T1_4mm_brain.nii.gz --premat=${folder}/reg.mat -o ${folder}/mreg_std.nii.gz
