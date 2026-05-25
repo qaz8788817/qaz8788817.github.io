@@ -64,7 +64,7 @@ fslmaths ${folder}/mreg_mcf.nii.gz -mas ${folder}/mreg_brain_mask.nii.gz ${folde
 ```bet```加上```-m```參數，會偵測大腦邊界，並剪裁出一個黑白的「3D遮罩 (Mask)」(大腦內部數值是 1，外部是 0)。    
 ```fslmaths -mas```就像是「套用圖層遮罩」。它把原本的4D影片乘上這把3D剪刀，大腦外面的訊號乘上0瞬間變黑，大腦內部的4D波動則完美保留。  
 
-### 空間平滑化(Spatial Smoothing)
+### 4. 空間平滑化(Spatial Smoothing)
 「為影像加上一點柔焦，讓不同人的大腦更容易產生共鳴。」  
 每個人的大腦溝回就像指紋一樣獨一無二。  
 如果我們要把A患者與B患者的腦區拿來做統計比較，太過銳利的解剖邊界反而會造成誤差。  
@@ -75,7 +75,44 @@ fslmaths ${folder}/mreg_brain.nii.gz -s 2.54 ${folder}/mreg_smoothed
 ```
 ```-s 2.54```是高斯模糊的標準差(Sigma)。這對應到大約6mm的FWHM(半高全寬)，是VLF分析中非常標準的平滑程度。  
 
+### 5. 高通濾波(High-pass Filtering)
+「濾除機器的物理雜訊，萃取純粹的神經波動。」  
+MRI掃描儀運作久了，機器發熱會導致影像產生一種週期極長的「緩慢漂移(Scanner Drift)」。  
+這純粹是物理雜訊，與大腦活動無關。  
+我們設定125秒(0.008 Hz)的截止點，把這些像海浪退潮般的超低頻雜訊切除。  
+(注意：FSL 的高通濾波會連同大腦的背景亮度一起歸零，讓大腦在畫面上變成隱形的黑洞，因此濾波後必須執行 ```-add``` 將大腦平均亮度加回來，訊號才算完整！)  
+```
+fslmaths ${folder}/mreg_smoothed.nii.gz -bptf 78.125 -1 ${folder}/mreg_hpf
+```
+參數```-bptf```是濾波器。```78.125```是精準算出的高通截止點(對應0.008 Hz或 125秒)。後面的```-1```代表「不進行低通濾波」，因為要保留所有較快的正常大腦脈動。  
 
+```
+fslmaths ${folder}/mreg_smoothed.nii.gz -Tmean ${folder}/mreg_mean
+fslmaths ${folder}/mreg_hpf.nii.gz -add ${folder}/mreg_mean ${folder}/mreg_hpf_restored
+```
+
+### 6. 標準空間對齊(Registration to MNI space)
+「將每個獨特的大腦，搬進全世界通用的標準地圖裡。」  
+為了向全世界的神經科學家說明發現了「哪個腦區」有異常，我們必須把患者原生的大腦，變形拉伸到全球通用的MNI標準模板上。  
+- ```flirt```負責「算數學」：比對患者大腦與標準大腦的差異，算出一張包含平移、縮放、旋轉參數的「變形矩陣地圖」。
+- ```applywarp```負責「搬家」：拿著這份地圖，精準地將4D影片裡的每一個時間點，無損地搬遷到標準空間中。
+```
+flirt -in ${folder}/mreg_hpf_restored.nii.gz -ref MNI152_T1_4mm_brain.nii.gz -out ${folder}/mreg_mean_std -omat ${folder}/reg.mat -bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12
+applywarp -i ${folder}/mreg_hpf.nii.gz -r MNI152_T1_4mm_brain.nii.gz --premat=${folder}/reg.mat -o ${folder}/mreg_std.nii.gz
+```
 
 ### 結語
-從dMRI的微觀結構分析，到MREG的超快速動態監測，影像技術的演進正不斷打破我們對大腦的認知邊界。  
+現在就可以用```fsleyes```去觀察EPI影像的訊號了。  
+<div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
+  <img src="{{ '/assets/images/MREG//MREG_1.png' | relative_url }}" 
+       alt="對齊到MNI空間前後的訊號波形圖差異" 
+       style="max-width: 100%; height: auto; border: 1px solid #ddd;">
+  <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+    <i>圖：對齊到MNI空間前後的訊號波形圖差異。</i>
+  </p>
+</div>
+
+要特別注意的是，生成完每一步驟的影像後，用```fslinfo```確認一下影像的attribute ```dim4```是不是大於1。  
+指令：```fslinfo file.nii.gz | grep dim4```  
+
+那這篇就先到這裡做個小結！下一篇在繼續做後續的分析~
