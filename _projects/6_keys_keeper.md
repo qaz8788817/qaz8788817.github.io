@@ -3,13 +3,13 @@ layout: single
 title: "A Tool Can Save Ur Keys"
 excerpt: "Using Python to generate a easy tool can save your keys in your desktop."
 header:
-  teaser: /assets/images/keys-keeper-1.png
+  teaser: /assets/images/keys_keeper_1.png
 gallery:
-  - url: /assets/images/keys-keeper-1.png
-    image_path: /assets/images/keys-keeper-1.png
+  - url: /assets/images/keys_keeper_1.png
+    image_path: /assets/images/keys_keeper_1.png
     alt: "App實際介面"
-  - url: /assets/images/keys-keeper-2.png
-    image_path: /assets/images/keys-keeper-2.png
+  - url: /assets/images/keys_keeper_2.png
+    image_path: /assets/images/keys_keeper_2.png
     alt: "App實際介面-2"
 author_profile: true
 ---
