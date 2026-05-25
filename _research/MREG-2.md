@@ -56,10 +56,26 @@ mcflirt -in ${folder}/mreg_trimmed.nii.gz -out ${folder}/mreg_mcf -plots -meanvo
 為了不破壞 4D 影片的時間軸，我們採用「兩步法」：  
 1. 先利用剛才的 3D 平均影像，精準計算出大腦的輪廓，做出一把黑白的「3D遮罩(Mask)」。  
 2. 利用```fslmaths```把這把剪刀套用到原本的4D影片上。遮罩外的地方數值歸零，遮罩內的大腦神經波動則完美保留。  
+
 ```
 bet ${folder}/mreg_mcf.nii.gz ${folder}/mreg_brain -f 0.25 -g 0.22 -m
 fslmaths ${folder}/mreg_mcf.nii.gz -mas ${folder}/mreg_brain_mask.nii.gz ${folder}/mreg_brain
 ```
+```bet```加上```-m```參數，會偵測大腦邊界，並剪裁出一個黑白的「3D遮罩 (Mask)」(大腦內部數值是 1，外部是 0)。    
+```fslmaths -mas```就像是「套用圖層遮罩」。它把原本的4D影片乘上這把3D剪刀，大腦外面的訊號乘上0瞬間變黑，大腦內部的4D波動則完美保留。  
+
+### 空間平滑化(Spatial Smoothing)
+「為影像加上一點柔焦，讓不同人的大腦更容易產生共鳴。」  
+每個人的大腦溝回就像指紋一樣獨一無二。  
+如果我們要把A患者與B患者的腦區拿來做統計比較，太過銳利的解剖邊界反而會造成誤差。  
+利用```fslmaths -s```加上適度的高斯模糊，  
+不僅能讓不同受試者的腦區在對齊時更容易重疊，還能互相抵銷掉相鄰像素間的隨機雜訊，大幅提升SNR。  
+```
+fslmaths ${folder}/mreg_brain.nii.gz -s 2.54 ${folder}/mreg_smoothed
+```
+```-s 2.54```是高斯模糊的標準差(Sigma)。這對應到大約6mm的FWHM(半高全寬)，是VLF分析中非常標準的平滑程度。  
+
+
 
 ### 結語
 從dMRI的微觀結構分析，到MREG的超快速動態監測，影像技術的演進正不斷打破我們對大腦的認知邊界。  
