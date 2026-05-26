@@ -22,7 +22,6 @@ gallery:
 date: 2026-04-27
 categories:
   - Life
-  - App
 tags:
   - Japan
 ---
