@@ -4,6 +4,7 @@ title: "Projects"
 permalink: /projects/
 author_profile: true
 ---
+大部分的專案都可以在我的Github上找到哦！  
 
 <style>
   /* 控制按鈕與分頁容器樣式 */
