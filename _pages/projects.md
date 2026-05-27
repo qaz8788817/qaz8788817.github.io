@@ -1,14 +1,21 @@
 ---
-layout: home
+layout: archive
 title: "Projects"
 permalink: /projects/
 author_profile: true
 ---
 
 <style>
-  /* 控制按鈕樣式 */
-  .sort-controls {
+  /* 控制按鈕與分頁容器樣式 */
+  .toolbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
     margin-bottom: 20px;
+  }
+  .sort-controls {
     display: flex;
     gap: 10px;
   }
@@ -25,6 +32,36 @@ author_profile: true
     background-color: #333;
     color: #fff;
     border-color: #333;
+  }
+
+  /* 下方分頁控制鈕 */
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  .page-btn {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s;
+  }
+  .page-btn:hover:not(:disabled) {
+    background: #f0f0f0;
+    border-color: #888;
+  }
+  .page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .page-info {
+    font-size: 0.9em;
+    color: #555;
   }
 
   /* 專案卡片網格 */
@@ -84,16 +121,18 @@ author_profile: true
   }
 </style>
 
-<div class="sort-controls">
-  <button class="sort-btn active" id="sort-newest" onclick="sortProjects('desc')">最新 $\rightarrow$ 最舊</button>
-  <button class="sort-btn" id="sort-oldest" onclick="sortProjects('asc')">最舊 $\rightarrow$ 最新</button>
+<div class="toolbar-container">
+  <div class="sort-controls">
+    <button class="sort-btn active" id="sort-newest" onclick="changeOrder('desc')">最新 $\rightarrow$ 最舊</button>
+    <button class="sort-btn" id="sort-oldest" onclick="changeOrder('asc')">最舊 $\rightarrow$ 最新</button>
+  </div>
 </div>
 
 <div class="project-grid" id="project-container">
   {% assign sorted_projects = site.projects | sort: "path" %}
   {% for project in sorted_projects %}
     <a href="{{ project.url | relative_url }}" class="project-card" data-path="{{ project.path }}">
-      <img src="{{ project.header.teaser | relative_url }}" class="project-img">
+      <img src="{{ project.header.teaser | relative_url }}" class="project-img" loading="lazy">
       <div class="project-info">
         <h3 class="project-title">{{ project.title }}</h3>
         <p class="project-excerpt">{{ project.excerpt | strip_html }}</p>
@@ -102,35 +141,83 @@ author_profile: true
   {% endfor %}
 </div>
 
+<div class="pagination-controls" id="pagination-container"></div>
+
 <script>
-  function sortProjects(direction) {
+  // 全域變數配置
+  const itemsPerPage = 10;   // 妳設定的「10個換一頁」
+  let currentDirection = 'desc'; 
+  let currentPage = 1;
+  let allCards = [];
+
+  // 初始化：當頁面載入完成時抓取所有卡片節點
+  document.addEventListener("DOMContentLoaded", function() {
     const container = document.getElementById('project-container');
-    const cards = Array.from(container.getElementsByClassName('project-card'));
+    // 將原始卡片存入陣列，後續直接對陣列操作排序與切片
+    allCards = Array.from(container.getElementsByClassName('project-card'));
     
-    // 根據 data-path 屬性進行排序
-    cards.sort((a, b) => {
+    // 執行初始化渲染（預設倒序、第一頁）
+    updateGallery();
+  });
+
+  // 當使用者點擊排序按鈕時觸發
+  function changeOrder(direction) {
+    currentDirection = direction;
+    currentPage = 1; // 切換排序時，自動跳回第一頁
+    updateGallery();
+  }
+
+  // 跳頁核心功能
+  window.goToPage = function(targetPage) {
+    currentPage = targetPage;
+    updateGallery();
+    // 自動捲動回列表頂部，優化手機端體驗
+    document.getElementById('sort-newest').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // 核心控制鏈：整合【排序】與【分頁】
+  function updateGallery() {
+    const container = document.getElementById('project-container');
+    const paginator = document.getElementById('pagination-container');
+
+    // 1. 先對所有卡片進行排序
+    allCards.sort((a, b) => {
       const pathA = a.getAttribute('data-path').toLowerCase();
       const pathB = b.getAttribute('data-path').toLowerCase();
       
-      // 使用 localeCompare 進行字串自然比對
-      if (direction === 'asc') {
+      if (currentDirection === 'asc') {
         return pathA.localeCompare(pathB, undefined, {numeric: true, sensitivity: 'base'});
       } else {
         return pathB.localeCompare(pathA, undefined, {numeric: true, sensitivity: 'base'});
       }
     });
-    
-    // 清空容器並重新依序加入卡片
-    container.innerHTML = '';
-    cards.forEach(card => container.appendChild(card));
-    
-    // 切換按鈕的 active 樣式
-    document.getElementById('sort-newest').classList.toggle('active', direction === 'desc');
-    document.getElementById('sort-oldest').classList.toggle('active', direction === 'asc');
-  }
 
-  // 頁面載入時預設執行一次最新到最舊（desc）
-  document.addEventListener("DOMContentLoaded", function() {
-    sortProjects('desc');
-  });
+    // 2. 計算分頁範圍
+    const totalPages = Math.ceil(allCards.length / itemsPerPage);
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+
+    // 3. 清空原容器，並只將當前頁面的 10 張卡片塞入 DOM
+    container.innerHTML = '';
+    allCards.forEach((card, index) => {
+      if (index >= start && index < end) {
+        container.appendChild(card);
+      }
+    });
+
+    // 4. 動態渲染底部的分頁按鈕
+    if (totalPages <= 1) {
+      paginator.innerHTML = ''; // 如果小於或等於 10 個專案，就不顯示分頁按鈕
+    } else {
+      paginator.innerHTML = `
+        <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="window.goToPage(${currentPage - 1})">上一頁</button>
+        <span class="page-info">${currentPage} / ${totalPages}</span>
+        <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="window.goToPage(${currentPage + 1})">下一頁</button>
+      `;
+    }
+
+    // 5. 切換頂部排序按鈕的 active 樣式
+    document.getElementById('sort-newest').classList.toggle('active', currentDirection === 'desc');
+    document.getElementById('sort-oldest').classList.toggle('active', currentDirection === 'asc');
+  }
 </script>
