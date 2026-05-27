@@ -68,7 +68,13 @@ author_profile: true
 </style>
 
 <div class="project-grid">
-  {% for project in site.projects %}
+  {% comment %} 1. 先依照 path（即包含檔案名稱的完整路徑）進行排序 {% endcomment %}
+  {% assign sorted_projects = site.projects | sort: "path" %}
+  
+  {% comment %} 2. 再將其反轉，達成由大到小（由新到舊或倒序）排序 {% endcomment %}
+  {% assign reversed_projects = sorted_projects | reverse %}
+
+  {% for project in reversed_projects %}
     <a href="{{ project.url | relative_url }}" class="project-card">
       <img src="{{ project.header.teaser | relative_url }}" class="project-img">
       <div class="project-info">
