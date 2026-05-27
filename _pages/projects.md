@@ -6,7 +6,28 @@ author_profile: true
 ---
 
 <style>
-  /* 讓專案列表看起來更像專業作品集 */
+  /* 控制按鈕樣式 */
+  .sort-controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  .sort-btn {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+  }
+  .sort-btn.active {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+  }
+
+  /* 專案卡片網格 */
   .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -21,7 +42,7 @@ author_profile: true
     text-decoration: none !important;
     color: inherit;
     display: flex;
-    flex-direction: column; /* 讓內容垂直排列 */
+    flex-direction: column;
   }
   .project-card:hover {
     transform: translateY(-5px);
@@ -35,12 +56,10 @@ author_profile: true
   }
   .project-info {
     padding: 15px;
-    flex-grow: 1; /* 讓資訊區自動填滿剩下的空間 */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
   }
-
-  /* 1. 統一標題高度 (最多 2 行) */
   .project-title {
     margin: 0 0 10px 0 !important;
     font-size: 1.25em !important;
@@ -49,33 +68,31 @@ author_profile: true
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 2.6em; /* 即使只有一行，也會佔據兩行的空間，確保對齊 */
+    min-height: 2.6em;
     line-height: 1.3;
   }
-
-  /* 2. 統一摘要高度 (最多 3 行) */
   .project-excerpt {
     font-size: 0.9em;
     color: #666;
     line-height: 1.5;
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* 限制顯示三行 */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    height: 4.5em; /* 固定三行的高度 (1.5 * 3) */
+    height: 4.5em;
   }
 </style>
 
-<div class="project-grid">
-  {% comment %} 1. 先依照 path（即包含檔案名稱的完整路徑）進行排序 {% endcomment %}
-  {% assign sorted_projects = site.projects | sort: "path" %}
-  
-  {% comment %} 2. 再將其反轉，達成由大到小（由新到舊或倒序）排序 {% endcomment %}
-  {% assign reversed_projects = sorted_projects | reverse %}
+<div class="sort-controls">
+  <button class="sort-btn active" id="sort-newest" onclick="sortProjects('desc')">最新 $\rightarrow$ 最舊</button>
+  <button class="sort-btn" id="sort-oldest" onclick="sortProjects('asc')">最舊 $\rightarrow$ 最新</button>
+</div>
 
-  {% for project in reversed_projects %}
-    <a href="{{ project.url | relative_url }}" class="project-card">
+<div class="project-grid" id="project-container">
+  {% assign sorted_projects = site.projects | sort: "path" %}
+  {% for project in sorted_projects %}
+    <a href="{{ project.url | relative_url }}" class="project-card" data-path="{{ project.path }}">
       <img src="{{ project.header.teaser | relative_url }}" class="project-img">
       <div class="project-info">
         <h3 class="project-title">{{ project.title }}</h3>
@@ -84,3 +101,36 @@ author_profile: true
     </a>
   {% endfor %}
 </div>
+
+<script>
+  function sortProjects(direction) {
+    const container = document.getElementById('project-container');
+    const cards = Array.from(container.getElementsByClassName('project-card'));
+    
+    // 根據 data-path 屬性進行排序
+    cards.sort((a, b) => {
+      const pathA = a.getAttribute('data-path').toLowerCase();
+      const pathB = b.getAttribute('data-path').toLowerCase();
+      
+      // 使用 localeCompare 進行字串自然比對
+      if (direction === 'asc') {
+        return pathA.localeCompare(pathB, undefined, {numeric: true, sensitivity: 'base'});
+      } else {
+        return pathB.localeCompare(pathA, undefined, {numeric: true, sensitivity: 'base'});
+      }
+    });
+    
+    // 清空容器並重新依序加入卡片
+    container.innerHTML = '';
+    cards.forEach(card => container.appendChild(card));
+    
+    // 切換按鈕的 active 樣式
+    document.getElementById('sort-newest').classList.toggle('active', direction === 'desc');
+    document.getElementById('sort-oldest').classList.toggle('active', direction === 'asc');
+  }
+
+  // 頁面載入時預設執行一次最新到最舊（desc）
+  document.addEventListener("DOMContentLoaded", function() {
+    sortProjects('desc');
+  });
+</script>
