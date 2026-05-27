@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Paper Mind AI Canvas"
-excerpt: "Calculate the foreinger cash in TWD, and record the luggage weight/"
+excerpt: "Calculate the foreinger cash in TWD, and record the luggage weight."
 header:
   teaser: /assets/images/2026-05-26/app-4.png
 gallery:
