@@ -6,7 +6,7 @@ header:
   teaser: /assets/images/2026-05-26/app-5.png
 gallery:
   - url: /assets/images/2026-05-26/app-5.png
-    image_path: /assets/2026-05-26/app-5.png
+    image_path: /assets/images/2026-05-26/app-5.png
     alt: "介面"
 author_profile: true
 ---
