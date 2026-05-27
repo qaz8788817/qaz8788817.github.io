@@ -83,26 +83,122 @@ author_profile: true
     padding: 20px;
     background: #fff;
   }
+
+  /* 5. 前端分頁按鈕樣式 */
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 10px;
+  }
+  .page-btn {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s;
+  }
+  .page-btn:hover:not(:disabled) {
+    background: #f0f0f0;
+    border-color: #888;
+  }
+  .page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .page-info {
+    font-size: 0.9em;
+    color: #555;
+  }
 </style>
 
 <h3 class="archive__subtitle">View by Category</h3>
+
 {% for category in site.categories %}
-  <details class="category-box">
+  <details class="category-box" id="cat-box-{{ forloop.index }}">
     <summary>{{ category[0] | capitalize }} ({{ category[1].size }})</summary>
     <div class="category-content">
-      {% for post in category[1] %}
-        <a href="{{ post.url | relative_url }}" class="custom-post-item">
-          <div class="post-image-wrapper">
-            <img src="{{ post.header.teaser | relative_url }}" alt="{{ post.title }}">
-          </div>
-          <div class="post-content-wrapper">
-            <h2 class="post-item-title">{{ post.title }}</h2>
-            <div class="post-item-excerpt">
-              {{ post.excerpt | strip_html | truncatewords: 30 }}
+      
+      <div class="post-list-container">
+        {% for post in category[1] %}
+          <a href="{{ post.url | relative_url }}" class="custom-post-item">
+            <div class="post-image-wrapper">
+              <img src="{{ post.header.teaser | relative_url }}" alt="{{ post.title }}" loading="lazy">
             </div>
-          </div>
-        </a>
-      {% endfor %}
+            <div class="post-content-wrapper">
+              <h2 class="post-item-title">{{ post.title }}</h2>
+              <div class="post-item-excerpt">
+                {{ post.excerpt | strip_html | truncatewords: 30 }}
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+      <div class="pagination-controls" id="page-ctrl-{{ forloop.index }}"></div>
+
     </div>
   </details>
 {% endfor %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const itemsPerPage = 5; // 妳設定的「5個換一頁」
+
+    // 抓取畫面上所有的分類區塊
+    const categoryBoxes = document.querySelectorAll('.category-box');
+
+    categoryBoxes.forEach((box, index) => {
+      const container = box.querySelector('.post-list-container');
+      const posts = Array.from(container.querySelectorAll('.custom-post-item'));
+      const ctrlContainer = box.querySelector('.pagination-controls');
+      
+      let currentPage = 1;
+      const totalPages = Math.ceil(posts.length / itemsPerPage);
+
+      // 如果文章總數小於或等於 5 篇，就不需要顯示分頁按鈕
+      if (totalPages <= 1) return;
+
+      // 核心渲染功能：只顯示目前頁數的 5 篇，其餘隱藏
+      function renderPage(page) {
+        currentPage = page;
+        
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        posts.forEach((post, i) => {
+          if (i >= start && i < end) {
+            post.style.display = 'flex'; // 顯示符合區間的 Post
+          } else {
+            post.style.display = 'none'; // 隱藏其他
+          }
+        });
+
+        // 更新按鈕狀態
+        ctrlContainer.innerHTML = `
+          <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="window.changeCatPage(${index}, ${currentPage - 1})">上一頁</button>
+          <span class="page-info">${currentPage} / ${totalPages}</span>
+          <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="window.changeCatPage(${index}, ${currentPage + 1})">下一頁</button>
+        `;
+      }
+
+      // 將控制權限綁定到全域視窗，以便 HTML 按鈕點擊呼叫
+      if (!window.catPaginationRegistry) window.catPaginationRegistry = {};
+      window.catPaginationRegistry[index] = renderPage;
+
+      // 初始化第一頁
+      renderPage(1);
+    });
+
+    // 全域跳頁處理函式
+    window.changeCatPage = function(catIndex, targetPage) {
+      if (window.catPaginationRegistry && window.catPaginationRegistry[catIndex]) {
+        window.catPaginationRegistry[catIndex](targetPage);
+      }
+    };
+  });
+</script>
